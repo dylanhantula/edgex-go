@@ -33,8 +33,8 @@ func main() {
 
 	flag.BoolVar(&useConsul, "consul", false, "Indicates the service should use consul.")
 	flag.BoolVar(&useConsul, "c", false, "Indicates the service should use consul.")
-	flag.StringVar(&useProfile, "profile", "default", "Specify a profile other than default.")
-	flag.StringVar(&useProfile, "p", "default", "Specify a profile other than default.")
+	flag.StringVar(&useProfile, "profile", "", "Specify a profile other than default.")
+	flag.StringVar(&useProfile, "p", "", "Specify a profile other than default.")
 	flag.Usage = usage.HelpCallback
 	flag.Parse()
 
@@ -60,7 +60,7 @@ func main() {
 
 	loggingClient = logger.NewClient(configuration.ApplicationName, false, configuration.LoggingFile)
 	loggingClient.Info(consulMsg)
-	loggingClient.Info(fmt.Sprintf("Starting %s %s\n", logging.SUPPORTLOGGINGSERVICENAME, edgex.Version))
+	loggingClient.Info(fmt.Sprintf("Starting %s %s", logging.SUPPORTLOGGINGSERVICENAME, edgex.Version))
 
 	logging.Init(*configuration)
 	heartbeat.Start(configuration.HeartBeatMsg, configuration.HeartBeatTime, loggingClient)
