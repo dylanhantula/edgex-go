@@ -1,0 +1,58 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.12.0 ()
+  creationTimestamp: null
+  labels:
+    io.kompose.service: export-client
+  name: export-client
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        io.kompose.service: export-client
+    spec:
+      containers:
+      - env:
+        - name: EXPORT_CLIENT_CONSUL_HOST
+          value: edgex-config-seed
+        - name: EXPORT_CLIENT_DISTRO_HOST
+          value: export-distro
+        - name: EXPORT_CLIENT_MONGO_URL
+          value: edgex-mongo
+        image: edgexfoundry/docker-export-client
+        name: edgex-export-client
+        ports:
+        - containerPort: 48071
+        resources: {}
+        volumeMounts:
+        - mountPath: /data/db
+          name: db-data
+        - mountPath: /edgex/logs
+          name: log-data
+        - mountPath: /consul/config
+          name: consul-config
+        - mountPath: /consul/data
+          name: consul-data
+      hostname: edgex-export-client
+      restartPolicy: Always
+      volumes:
+      - name: db-data
+        persistentVolumeClaim:
+          claimName: db-data
+      - name: log-data
+        persistentVolumeClaim:
+          claimName: log-data
+      - name: consul-config
+        persistentVolumeClaim:
+          claimName: consul-config
+      - name: consul-data
+        persistentVolumeClaim:
+          claimName: consul-data
+status: {}

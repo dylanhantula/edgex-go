@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    io.kompose.service: notifications
+  name: notifications
+spec:
+  type: NodePort
+  ports:
+  - name: "48060"
+    port: 48060
+    targetPort: 48060
+  selector:
+    io.kompose.service: notifications
+status:
+  loadBalancer: {}

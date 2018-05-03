@@ -1,0 +1,25 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    io.kompose.service: helloworld
+  name: helloworld
+  namespace: test
+spec:
+  replicas: 1
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        io.kompose.service: helloworld
+    spec:
+      containers:
+      - image: dockercloud/hello-world
+        name: helloworld
+        ports:
+        - containerPort: 80
+        resources: {}
+      restartPolicy: Always
+status: {}
